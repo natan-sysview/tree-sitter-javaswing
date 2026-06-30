@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release"
+        required: true
+        default: "v0.1.0-alpha.1"
 
 permissions:
   contents: write
@@ -15,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -28,17 +36,20 @@ jobs:
       - name: Validate release candidate
         run: npm run ci:check
 
+      - name: Check generated artifacts
+        run: git diff --exit-code -- grammar.js tree-sitter.json src/parser.c src/grammar.json src/node-types.json
+
       - name: Resolve release notes
         id: notes
         shell: bash
         run: |
-          tag="${GITHUB_REF_NAME}"
+          tag="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
           version="${tag#v}"
           notes="docs/releases/${version}.md"
           if [[ ! -f "$notes" && "$version" == *"-"* ]]; then
             notes="docs/releases/${version//-/.}.md"
           fi
-          if [[ ! -f "$notes" && "$version" == "0.1.0-alpha" ]]; then
+          if [[ ! -f "$notes" && "$version" == 0.1.0-alpha* ]]; then
             notes="docs/releases/0.1.0-alpha.md"
           fi
           if [[ ! -f "$notes" ]]; then
@@ -51,12 +62,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 && \
-            gh release edit "$GITHUB_REF_NAME" \
-              --title "$GITHUB_REF_NAME" \
+          tag="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          gh release view "$tag" >/dev/null 2>&1 && \
+            gh release edit "$tag" \
+              --title "$tag" \
               --notes-file "${{ steps.notes.outputs.file }}" \
               --prerelease || \
-            gh release create "$GITHUB_REF_NAME" \
-              --title "$GITHUB_REF_NAME" \
+            gh release create "$tag" \
+              --title "$tag" \
               --notes-file "${{ steps.notes.outputs.file }}" \
               --prerelease

@@ -119,8 +119,8 @@ Also review `CONTRIBUTING.md`, `SECURITY.md`, `.github/pull_request_template.md`
 For the first alpha:
 
 ```sh
-git tag -a v0.1.0-alpha -m "v0.1.0-alpha"
-git push origin v0.1.0-alpha
+git tag -a v0.1.0-alpha.1 -m "v0.1.0-alpha.1"
+git push origin v0.1.0-alpha.1
 ```
 
 Tag pushes run the release workflow. The workflow validates the package and creates or updates a GitHub pre-release from `docs/releases/0.1.0-alpha.md`.

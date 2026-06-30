@@ -11,7 +11,7 @@ Review it before requesting inclusion in any public Tree-sitter parser index.
 - Scope: `source.javaswing`
 - File types: `java`
 - License: `MIT`
-- Version: `0.1.0`
+- Version: `0.1.0-alpha.1`
 - ABI version: `15`
 - Upstream grammar: `tree-sitter-java`
 - External scanner: none
@@ -24,7 +24,7 @@ Review it before requesting inclusion in any public Tree-sitter parser index.
 
 - Repository URL: `https://github.com/natan-sysview/tree-sitter-javaswing`
 - Initial public commit SHA: `3e2295f25aa95eef7b7129cec46e32dc4a9a4c9c`
-- Public release tag: `v0.1.0-alpha`
+- Public release tag: `v0.1.0-alpha.1`
 
 ## Remaining Metadata To Fill
 

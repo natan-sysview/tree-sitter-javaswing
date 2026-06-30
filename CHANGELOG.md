@@ -4,7 +4,7 @@ All notable public changes to `tree-sitter-javaswing` are documented here.
 
 This project uses semantic versioning for public releases. Alpha releases may still change node names or tree shape before a stable `1.0.0`.
 
-## 0.1.0-alpha - 2026-06-30
+## 0.1.0-alpha.1 - 2026-06-30
 
 Initial alpha release candidate.
 
