@@ -1,6 +1,6 @@
 # Publication Plan
 
-This grammar is developed inside a private parser lab. A public repository must receive only the grammar payload, not local evidence or private source-derived artifacts.
+This grammar was developed inside a private parser lab. The public repository must receive only the grammar payload, not local evidence or private source-derived artifacts.
 
 ## Public Payload
 
@@ -22,6 +22,11 @@ Copy these paths to the standalone public repository:
 - `package-lock.json`
 - `tree-sitter.json`
 - `scripts/check-release.mjs`
+- `scripts/demo.mjs`
+- `scripts/smoke-parse.mjs`
+- `scripts/check-queries.mjs`
+- `examples/`
+- `docs/demo.md`
 - `docs/nodes.md`
 - `docs/parser-list.md`
 - `docs/publication.md`
@@ -47,13 +52,19 @@ Do not copy:
 
 ## Repository Metadata
 
-After the GitHub repository exists:
+Current public repository:
 
-1. Update `tree-sitter.json` metadata links.
-2. Add the same repository URL to `package.json`.
+```text
+https://github.com/natan-sysview/tree-sitter-javaswing
+```
+
+Before each release:
+
+1. Confirm `tree-sitter.json` metadata links point to the public repository.
+2. Confirm `package.json` repository, bugs, and homepage point to the public repository.
 3. Keep version values aligned between `tree-sitter.json` and `package.json`.
-4. Confirm `CHANGELOG.md` and `docs/releases/0.1.0-alpha.md` match the intended tag.
-5. Confirm `docs/parser-list.md` has the public repository URL and public commit/release details.
+4. Confirm `CHANGELOG.md` and `docs/releases/` match the intended tag.
+5. Confirm `docs/parser-list.md` has public commit and release details.
 6. Run the CI workflow on the public repository.
 
 Inside the private parser lab, this can be prepared with:
@@ -89,18 +100,31 @@ Before tagging a release:
 
 ```sh
 npm ci
-npm run generate
-npm run metadata:check
-npm test
-npm run parse:check
-npm run query:check
-npm run pack:check
-npm run audit:check
+npm run ci:check
 ```
 
 Then inspect the tarball output from `npm pack --dry-run` and confirm it does not include private lab paths or artifacts.
 
 Also review `CONTRIBUTING.md`, `SECURITY.md`, `.github/pull_request_template.md`, and `.github/ISSUE_TEMPLATE/` to confirm they ask for synthetic minimized examples instead of private source.
+
+## Release Steps
+
+For the first alpha:
+
+```sh
+git tag -a v0.1.0-alpha -m "v0.1.0-alpha"
+git push origin v0.1.0-alpha
+```
+
+Create a GitHub Release from that tag and mark it as a pre-release.
+
+If npm credentials are available, publish with an alpha tag:
+
+```sh
+npm publish --tag alpha
+```
+
+Do not publish npm packages from a dirty worktree or before the GitHub CI is green.
 
 ## Private Evidence Policy
 

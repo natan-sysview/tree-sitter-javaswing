@@ -2,7 +2,7 @@
 
 This document tracks public parser-list readiness for `tree-sitter-javaswing`.
 
-It should be reviewed after the standalone GitHub repository exists and before requesting inclusion in any public Tree-sitter parser index.
+Review it before requesting inclusion in any public Tree-sitter parser index.
 
 ## Current Grammar Metadata
 
@@ -23,19 +23,16 @@ It should be reviewed after the standalone GitHub repository exists and before r
 ## Repository Metadata
 
 - Repository URL: `https://github.com/natan-sysview/tree-sitter-javaswing`
-- Public commit SHA: fill after first commit
-- Public release tag: fill after first release
+- Initial public commit SHA: `3e2295f25aa95eef7b7129cec46e32dc4a9a4c9c`
+- Public release tag: `v0.1.0-alpha`
 
 ## Remaining Metadata To Fill
 
-These fields must be filled after the public GitHub repository is created:
+These fields must be filled outside the source tree:
 
-- `tree-sitter.json` metadata repository link
-- `package.json` repository link
-- public maintainer or author metadata
 - GitHub topics
-- first public commit SHA
-- first public release tag
+- GitHub pre-release URL
+- npm package URL, if published
 
 Recommended GitHub topics:
 
@@ -52,12 +49,7 @@ Run from a clean public clone:
 
 ```sh
 npm ci
-npm run generate
-npm test
-npm run parse:check
-npm run query:check
-npm run pack:check
-npm run audit:check
+npm run ci:check
 ```
 
 Expected alpha validation:
@@ -92,5 +84,6 @@ Before requesting parser-list inclusion:
 5. Confirm the GitHub release is marked pre-release for alpha builds.
 6. Confirm the package dry-run output contains only public grammar files.
 7. Confirm issue templates and contribution docs ask for synthetic minimal examples.
+8. Confirm the parser-list request uses aggregate validation metrics only.
 
 Do not claim official GitHub.com syntax highlighting unless GitHub adopts the grammar through its own process.

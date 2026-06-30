@@ -1,53 +1,38 @@
 # tree-sitter-javaswing
 
+[![CI](https://github.com/natan-sysview/tree-sitter-javaswing/actions/workflows/ci.yml/badge.svg)](https://github.com/natan-sysview/tree-sitter-javaswing/actions/workflows/ci.yml)
+[![npm package](https://img.shields.io/npm/v/tree-sitter-javaswing?label=npm)](https://www.npmjs.com/package/tree-sitter-javaswing)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Tree-sitter grammar for Java Swing source code.
 
-This grammar is a controlled fork of `tree-sitter-java` with additive Swing/AWT nodes for frontend structure that is otherwise hidden inside generic Java syntax. The goal is to expose official Java Swing concepts such as screens, components, listeners, layout wiring, dialog APIs, table models, combo boxes, text controls, root panes, timers, workers, focus, transfer handlers, and UI-thread invocation without breaking normal Java parsing.
+`tree-sitter-javaswing` is a controlled fork of `tree-sitter-java` with additive Swing/AWT nodes for frontend structure that is otherwise hidden inside generic Java syntax. It still parses Java, but exposes official Java Swing concepts such as screens, components, listeners, layout wiring, dialog APIs, table models, combo boxes, text controls, root panes, timers, workers, focus, transfer handlers, and UI-thread invocation.
+
+## Why This Exists
+
+Swing is a Java library, not a separate language. In real applications, though, frontend structure and backend logic live in the same Java files. A generic Java parse tree can tell you that a method call or object creation exists, but it does not tell downstream tools that the source is building a screen, wiring a listener, mutating a table model, opening a dialog, or scheduling UI-thread work.
+
+This grammar adds named `javaswing_*` nodes when the source syntax can prove an official Swing/AWT concept locally. The goal is a useful concrete syntax tree for editor tooling, migration analysis, code intelligence, modernization, and parser-lab validation.
 
 ## Scope
 
-`tree-sitter-javaswing` still parses Java. Swing-specific rules are added only when the syntax can be recognized from local source text.
-
-Included examples:
+Included:
 
 - Swing/AWT screen and component declarations, creations, and fields.
 - `initComponents` generated UI blocks.
 - Event listener wiring and event handler methods.
 - Official layout, geometry, border, root pane, viewport, split pane, tabbed pane, toolbar, menu, popup, dialog, file chooser, table, list, combo box, spinner, text, focus, action, timer, worker, and transfer-handler APIs.
-- High-volume validation against a private Java inventory using aggregate metrics.
+- Synthetic public corpus coverage for supported parse shapes.
+- Aggregate private-inventory validation metrics without private source artifacts.
 
 Intentionally excluded:
 
 - Client-specific GUI frameworks and subclasses.
 - Third-party layout DSLs such as JGoodies `CellConstraints` and TableLayout profiles.
 - Receiver-type-dependent calls such as broad `add(...)`, `setModel(...)`, `getModel()`, `setSelectedIndex(...)`, and `setResizable(...)` when local syntax cannot prove the receiver type.
-- Semantic inheritance or symbol-table resolution.
+- Semantic inheritance, import-aware type resolution, or symbol-table resolution.
 
-## Current Validation
-
-Latest stable validation snapshot:
-
-- Tree-sitter corpus: `183/183` passing.
-- Full Java inventory through FastParse: `3313/3313` parsed successfully.
-- Hard parse failures: `0`.
-- Files with Tree-sitter `ERROR`: `0`.
-- `ERROR` nodes: `0`.
-- `MISSING` nodes: `0`.
-- Encoding-normalized inputs: `441`.
-
-The private source inventory is not included in this repository. Public reports should use aggregate metrics only and must not include private source paths, snippets, or validation databases.
-
-## Changelog And Releases
-
-Public release history is tracked in `CHANGELOG.md`.
-
-The initial alpha release notes are prepared in `docs/releases/0.1.0-alpha.md`.
-
-Contribution guidelines are in `CONTRIBUTING.md`.
-
-Security reporting guidance is in `SECURITY.md`.
-
-## Development
+## Quick Start
 
 Install dependencies:
 
@@ -61,41 +46,52 @@ Generate parser artifacts:
 npm run generate
 ```
 
-Run corpus tests:
+Run the public quality gate:
 
 ```sh
-npm test
+npm run ci:check
 ```
 
-Run smoke, query, package, and dependency checks:
+Parse the public showcase example:
 
 ```sh
-npm run metadata:check
+npm run example:parse
+```
+
+Run a small AST and query-capture demo:
+
+```sh
+npm run demo
+```
+
+## Development Commands
+
+```sh
+npm run metadata:check:public
+npm run generate
+npm test
 npm run parse:check
 npm run query:check
+npm run example:parse
 npm run pack:check
 npm run audit:check
 ```
 
-Private inventory validation is performed in the local parser lab and is intentionally excluded from the public package.
+The public CI runs these checks across Linux, macOS, and Windows with active Node.js versions.
 
-## Public Node Documentation
+## Current Validation
 
-Public node and field documentation is generated from `src/node-types.json`:
+Latest stable validation snapshot:
 
-```text
-docs/nodes.md
-```
+- Tree-sitter corpus: `183/183` passing.
+- Full Java inventory through FastParse: `3313/3313` parsed successfully.
+- Hard parse failures: `0`.
+- Files with Tree-sitter `ERROR`: `0`.
+- `ERROR` nodes: `0`.
+- `MISSING` nodes: `0`.
+- Encoding-normalized inputs: `441`.
 
-It lists named `javaswing_*` nodes, public field names, and direct child node types.
-
-Parser-list readiness notes are tracked in `docs/parser-list.md`.
-
-## Rule Catalogs
-
-Private rule catalogs in the parser lab record the official API basis, supported local syntax, excluded forms, semantic limits, corpus coverage, and audit result for each rule.
-
-Those catalogs are not part of the public package until they pass a privacy review. The public corpus under `test/corpus/` contains synthetic examples for the supported parse shapes.
+The private source inventory is not included in this repository. Public reports use aggregate metrics only and must not include private source paths, snippets, hashes, validation databases, or diagnostics.
 
 ## Queries
 
@@ -107,18 +103,45 @@ The grammar ships with:
 
 The Swing query file is intended for downstream extraction experiments. Stable domain concepts should become named grammar nodes when they can be recognized safely by syntax alone.
 
-## Public Release Status
+## Public Node Documentation
 
-This grammar is not public-release ready yet.
+Public node and field documentation is generated from `src/node-types.json`:
 
-Before publication:
+```text
+docs/nodes.md
+```
 
-- Choose the final GitHub repository URL and update `tree-sitter.json`.
-- Add or confirm package metadata for the intended distribution channels.
-- Run CI for `tree-sitter generate`, `tree-sitter test`, query checks, and package dry-run.
-- Confirm public issue templates and contribution guidelines do not request or expose private source.
-- Review queries and package contents.
-- Remove private validation artifacts from any public package or repository.
-- Keep private corpus evidence as aggregate metrics only.
+Parser-list readiness notes are tracked in `docs/parser-list.md`.
 
-The current publication checklist lives in the private parser lab until the public repository exists.
+## Examples
+
+Synthetic public examples live under `examples/`.
+
+They are intentionally generic and are not copied from private projects or customer source code.
+
+Demo instructions are in `docs/demo.md`.
+
+## Release Status
+
+This repository is ready for public alpha validation. The first release should be published as a GitHub pre-release and, if npm credentials are available, as an npm prerelease/dist-tag.
+
+Recommended public topics:
+
+- `tree-sitter`
+- `parser`
+- `grammar`
+- `java`
+- `swing`
+- `javaswing`
+
+Public release history is tracked in `CHANGELOG.md`, with alpha notes in `docs/releases/0.1.0-alpha.md`.
+
+## Contributing
+
+Contribution guidelines are in `CONTRIBUTING.md`.
+
+Please use minimized synthetic examples in issues and pull requests. Do not paste private source code, customer project names, production paths, generated diagnostics, validation databases, or inventory exports.
+
+## Security
+
+Security reporting guidance is in `SECURITY.md`.

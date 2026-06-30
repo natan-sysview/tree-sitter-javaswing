@@ -4,7 +4,7 @@ All notable public changes to `tree-sitter-javaswing` are documented here.
 
 This project uses semantic versioning for public releases. Alpha releases may still change node names or tree shape before a stable `1.0.0`.
 
-## 0.1.0-alpha - Unreleased
+## 0.1.0-alpha - 2026-06-30
 
 Initial alpha release candidate.
 
@@ -15,7 +15,9 @@ Initial alpha release candidate.
 - Public corpus tests for screens, components, fields, initialization blocks, listeners, event handlers, layouts, borders, geometry, menus, toolbars, dialogs, file choosers, tables, lists, combo boxes, spinners, text controls, root panes, tabbed panes, split panes, scroll panes, selection models, actions, timers, workers, focus handling, transfer handlers, and UI-thread invocation.
 - Query files for highlights, tags, and Swing-oriented extraction experiments.
 - Public node documentation generated from `src/node-types.json`.
-- CI workflow for parser generation, corpus tests, query checks, and package dry-run.
+- CI workflow for parser generation, corpus tests, query checks, public example parsing, package dry-run, and npm audit across Linux, macOS, and Windows.
+- Cross-platform Node-based smoke and query check scripts.
+- Public synthetic showcase example under `examples/`.
 - Public payload builder used inside the private parser lab to copy only whitelisted grammar files.
 
 ### Validation
