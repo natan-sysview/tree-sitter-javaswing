@@ -9,6 +9,8 @@ Copy these paths to the standalone public repository:
 - `.editorconfig`
 - `.gitattributes`
 - `.github/workflows/ci.yml`
+- `.github/workflows/release.yml`
+- `.github/workflows/npm-publish.yml`
 - `.github/ISSUE_TEMPLATE/`
 - `.gitignore`
 - `.npmignore`
@@ -94,6 +96,11 @@ The public repository CI also runs:
 npm run metadata:check:public
 ```
 
+The public repository also includes:
+
+- `.github/workflows/release.yml`: validates tag pushes and creates or updates a GitHub pre-release from `docs/releases/`.
+- `.github/workflows/npm-publish.yml`: manually publishes npm packages after maintainers configure npm credentials.
+
 ## Validation Gates
 
 Before tagging a release:
@@ -116,9 +123,20 @@ git tag -a v0.1.0-alpha -m "v0.1.0-alpha"
 git push origin v0.1.0-alpha
 ```
 
-Create a GitHub Release from that tag and mark it as a pre-release.
+Tag pushes run the release workflow. The workflow validates the package and creates or updates a GitHub pre-release from `docs/releases/0.1.0-alpha.md`.
 
-If npm credentials are available, publish with an alpha tag:
+If npm trusted publishing is configured, publish with an alpha tag from the manual `Publish npm` workflow.
+
+Repository maintainers should configure npm Trusted Publisher for:
+
+- Owner: `natan-sysview`
+- Repository: `tree-sitter-javaswing`
+- Workflow filename: `npm-publish.yml`
+- Allowed action: `npm publish`
+
+The workflow uses GitHub Actions OIDC (`id-token: write`), Node 24, latest npm, and `npm publish --provenance --access public`.
+
+Manual local publish remains possible:
 
 ```sh
 npm publish --tag alpha

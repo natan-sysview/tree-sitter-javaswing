@@ -15,6 +15,8 @@ const requiredFiles = [
   "SECURITY.md",
   "LICENSE",
   ".github/workflows/ci.yml",
+  ".github/workflows/release.yml",
+  ".github/workflows/npm-publish.yml",
   ".github/dependabot.yml",
   ".github/pull_request_template.md",
   "scripts/check-release.mjs",

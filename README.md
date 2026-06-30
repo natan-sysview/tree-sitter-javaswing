@@ -125,6 +125,8 @@ Demo instructions are in `docs/demo.md`.
 
 This repository is ready for public alpha validation. The first release should be published as a GitHub pre-release and, if npm credentials are available, as an npm prerelease/dist-tag.
 
+Tag pushes run the GitHub pre-release workflow. npm publication is manual so maintainers can configure npm trusted publishing or `NPM_TOKEN` first.
+
 Recommended public topics:
 
 - `tree-sitter`
