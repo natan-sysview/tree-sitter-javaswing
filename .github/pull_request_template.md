@@ -4,12 +4,7 @@ Describe the grammar, query, documentation, or packaging change.
 
 ## Validation
 
-- [ ] `npm run generate`
-- [ ] `npm test`
-- [ ] `npm run parse:check`
-- [ ] `npm run query:check`
-- [ ] `npm run pack:check`
-- [ ] `npm run audit:check`
+- [ ] `npm run ci:check`
 
 ## Grammar Checklist
 
@@ -17,6 +12,7 @@ Describe the grammar, query, documentation, or packaging change.
 - [ ] Added or updated negative corpus examples.
 - [ ] Regenerated parser artifacts when `grammar.js` changed.
 - [ ] Kept receiver-type-dependent or client-specific syntax out of official rules.
+- [ ] Reviewed generated artifact diffs when `tree-sitter-cli` changed.
 
 ## Privacy Checklist
 

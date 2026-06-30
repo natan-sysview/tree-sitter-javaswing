@@ -26,6 +26,7 @@ const requiredFiles = [
   "examples/README.md",
   "examples/swing-showcase.java",
   "docs/demo.md",
+  "docs/dependency-policy.md",
   "queries/highlights.scm",
   "queries/tags.scm",
   "queries/swing.scm",
@@ -61,6 +62,7 @@ if (errors.length === 0) {
   const treeSitter = readJson("tree-sitter.json");
   const parserC = fileText("src/parser.c");
   const parserList = fileText("docs/parser-list.md");
+  const dependabot = fileText(".github/dependabot.yml");
 
   const grammar = treeSitter.grammars?.[0] ?? {};
   const metadata = treeSitter.metadata ?? {};
@@ -87,6 +89,15 @@ if (errors.length === 0) {
   }
   if (rootLock.name !== packageJson.name || rootLock.version !== packageJson.version) {
     errors.push("package-lock root package must match package.json name and version");
+  }
+  if (packageJson.devDependencies?.["tree-sitter-cli"] !== "0.25.10") {
+    errors.push("tree-sitter-cli must be pinned exactly to 0.25.10");
+  }
+  if (rootLock.devDependencies?.["tree-sitter-cli"] !== "0.25.10") {
+    errors.push("package-lock root tree-sitter-cli dependency must be pinned exactly to 0.25.10");
+  }
+  if (!dependabot.includes('dependency-name: "tree-sitter-cli"')) {
+    errors.push("Dependabot must ignore automated tree-sitter-cli upgrades");
   }
   if (bindings.c !== true) {
     errors.push("tree-sitter.json must advertise the C binding");

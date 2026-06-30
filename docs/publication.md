@@ -29,6 +29,7 @@ Copy these paths to the standalone public repository:
 - `scripts/check-queries.mjs`
 - `examples/`
 - `docs/demo.md`
+- `docs/dependency-policy.md`
 - `docs/nodes.md`
 - `docs/parser-list.md`
 - `docs/publication.md`

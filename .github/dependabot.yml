@@ -7,6 +7,8 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    ignore:
+      - dependency-name: "tree-sitter-cli"
 
   - package-ecosystem: "github-actions"
     directory: "/"

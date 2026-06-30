@@ -139,6 +139,8 @@ Recommended public topics:
 
 Public release history is tracked in `CHANGELOG.md`, with alpha notes in `docs/releases/0.1.0-alpha.md`.
 
+Dependency and parser-generator upgrade policy is documented in `docs/dependency-policy.md`.
+
 ## Contributing
 
 Contribution guidelines are in `CONTRIBUTING.md`.
