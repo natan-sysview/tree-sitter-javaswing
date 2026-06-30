@@ -1,7 +1,6 @@
 # tree-sitter-javaswing
 
 [![CI](https://github.com/natan-sysview/tree-sitter-javaswing/actions/workflows/ci.yml/badge.svg)](https://github.com/natan-sysview/tree-sitter-javaswing/actions/workflows/ci.yml)
-[![npm package](https://img.shields.io/npm/v/tree-sitter-javaswing?label=npm)](https://www.npmjs.com/package/tree-sitter-javaswing)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Tree-sitter grammar for Java Swing source code.
@@ -126,6 +125,8 @@ Demo instructions are in `docs/demo.md`.
 This repository is ready for public alpha validation. The first release should be published as a GitHub pre-release and, if npm credentials are available, as an npm prerelease/dist-tag.
 
 Tag pushes run the GitHub pre-release workflow. npm publication is manual so maintainers can configure npm trusted publishing or `NPM_TOKEN` first.
+
+The npm package badge should be added after the first package is published.
 
 Recommended public topics:
 
