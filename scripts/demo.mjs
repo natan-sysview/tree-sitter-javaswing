@@ -1,13 +1,16 @@
 import { spawnSync } from "node:child_process";
 
-const treeSitter = process.platform === "win32" ? "tree-sitter.cmd" : "tree-sitter";
+const treeSitter = "tree-sitter";
 const example = "examples/swing-showcase.java";
 
 function run(args) {
   const result = spawnSync(treeSitter, args, {
     stdio: "inherit",
-    shell: false,
+    shell: process.platform === "win32",
   });
+  if (result.error) {
+    console.error(result.error);
+  }
   if (result.status !== 0) {
     process.exit(result.status ?? 1);
   }

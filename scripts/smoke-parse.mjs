@@ -22,11 +22,14 @@ const file = path.join(tmp, "Smoke.java");
 
 try {
   fs.writeFileSync(file, source, "utf8");
-  const treeSitter = process.platform === "win32" ? "tree-sitter.cmd" : "tree-sitter";
+  const treeSitter = "tree-sitter";
   const result = spawnSync(treeSitter, ["parse", "--quiet", file], {
     stdio: "inherit",
-    shell: false,
+    shell: process.platform === "win32",
   });
+  if (result.error) {
+    console.error(result.error);
+  }
   process.exitCode = result.status ?? 1;
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });

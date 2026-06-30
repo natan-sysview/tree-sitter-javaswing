@@ -24,15 +24,18 @@ const queries = [
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "javaswing-query-"));
 const file = path.join(tmp, "Demo.java");
-const treeSitter = process.platform === "win32" ? "tree-sitter.cmd" : "tree-sitter";
+const treeSitter = "tree-sitter";
 
 try {
   fs.writeFileSync(file, source, "utf8");
   for (const query of queries) {
     const result = spawnSync(treeSitter, ["query", "--quiet", query, file], {
       stdio: "inherit",
-      shell: false,
+      shell: process.platform === "win32",
     });
+    if (result.error) {
+      console.error(result.error);
+    }
     if (result.status !== 0) {
       process.exitCode = result.status ?? 1;
       break;
