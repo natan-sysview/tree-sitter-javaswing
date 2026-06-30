@@ -44,7 +44,7 @@
     "test/corpus/**"
   ],
   "devDependencies": {
-    "tree-sitter-cli": "^0.25.4"
+    "tree-sitter-cli": "0.25.10"
   },
   "scripts": {
     "generate": "tree-sitter generate",
